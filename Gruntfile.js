@@ -48,6 +48,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
+    //Add tests for travis CI
+    grunt.registerTask('test', ['nodeunit']);
+
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'nodeunit']);
 };
