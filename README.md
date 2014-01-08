@@ -73,8 +73,8 @@ An array of paths to guard. All paths evaluate regarding targets[i].root path.
 #### Example 1
 Checking that:
 
-* 'public/js' directory and its subdirectories only contain .js files
 * 'routers' directory and its subdirectories only contain .js files
+* 'public/js' directory and its subdirectories only contain .js files
 * 'tests' directory and its subdirectories only contain .js and .json files
 * 'public/css' directory only contains .css files
 * 'pulbic/css/map' directory only contains .map files
@@ -100,6 +100,8 @@ grunt.initConfig({
     }
 });
 ```
+
+Find [here](http://gruntjs.com/configuring-tasks#files) extensive documentation on how to build extended file matchers that fit your needs.
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
