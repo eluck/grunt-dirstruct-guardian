@@ -8,43 +8,38 @@
 
 'use strict';
 
-module.exports = function(grunt) {
+var fs = require('fs');
+var path = require('path');
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
+module.exports = function (grunt) {
 
-  grunt.registerMultiTask('dirstruct_guardian', 'Watches that certain filetypes lie in associated directories, e.g. .js-files in the 'js' dir.', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      punctuation: '.',
-      separator: ', '
+    // Please see the Grunt documentation for more information regarding task
+    // creation: http://gruntjs.com/creating-tasks
+
+    grunt.registerMultiTask('dirstruct_guardian', 'Watches that certain filetypes lie in associated directories, e.g. .js-files in the "js" dir.', function () {
+        // Merge task-specific and/or target-specific options with these defaults.
+        var options = this.options({
+            fail: false
+        });
+
+        // Iterate over all specified file groups.
+        this.files.filter(function (f) {
+            return fs.lstatSync(f.src[0]).isFile();
+        }).forEach(function (f) {
+
+            var filePath = f.src[0];
+            f.allowed || (f.allowed = []);
+
+            if (f.allowed.indexOf(path.extname(filePath))) {
+                grunt.verbose.error();
+                var message = 'File "' + path.basename(filePath) + '" is not allowed in the "' + path.dirname(filePath) + '" directory';
+                if (options.fail) {
+                    grunt.fail.warn(message);
+                } else {
+                    grunt.log.warn(message);
+                }
+            }
+        });
     });
-
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
-        }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
-
-      // Handle options.
-      src += options.punctuation;
-
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
-
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
-    });
-  });
 
 };
