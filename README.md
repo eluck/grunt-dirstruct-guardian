@@ -16,6 +16,8 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 ```js
 grunt.loadNpmTasks('grunt-dirstruct-guardian');
 ```
+Or better use [matchdep](https://github.com/tkellen/node-matchdep) if you tired of including tons of "loadNpmTasks".
+
 
 ## The "dirstruct_guardian" task
 
@@ -24,61 +26,76 @@ In your project's Gruntfile, add a section named `dirstruct_guardian` to the dat
 
 ```js
 grunt.initConfig({
-  dirstruct_guardian: {
-    options: {
-      // Task-specific options go here.
+    dirstruct_guardian: {
+        task1: {
+            files: [
+                { allowed: ['.js', '.coffee'], src: ['a/path/regarding/root', 'another/path/regarding/root'], expand: true }
+            ]
+        },
+        task2: {
+            files: [
+                { allowed: ['.css', '.less'], cwd: 'path/regarding/root', src: ['path/regarding/cwd', expand: true }
+            ]
+        }
     },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
 });
 ```
+All rules are applied independently.
 
 ### Options
 
-#### options.separator
+#### options.fail
+Type: `Boolean`
+Default value: `false`
+
+If set to true, the grunt task will abort when it finds a file, which is not allowed for the directory. Otherwise it will just log a warning.
+
+#### targets[i].root
 Type: `String`
-Default value: `',  '`
+Default value: `current working directory`
 
-A string value that is used to do something with whatever.
+A path that targets[i].directories[j].paths will be added to.
 
-#### options.punctuation
+#### targets[i].rules[j].filters
 Type: `String`
-Default value: `'.'`
+Default value: `[]`
 
-A string value that is used to do something else with whatever else.
+An array of allowed file types. By default no file types allowed.
+
+#### targets[i].directories[j].paths
+Type: `String`
+Default value: `[]`
+
+An array of paths to guard. All paths evaluate regarding targets[i].root path.
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+#### Example 1
+Checking that:
+
+* 'public/js' directory and its subdirectories only contain .js files
+* 'public/css' directory only contains .css files
+* 'pulbic/css/map' directory only contains .map files
+* 'views' directory and its subdirictories only contain .jade files
 
 ```js
 grunt.initConfig({
-  dirstruct_guardian: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
-
-```js
-grunt.initConfig({
-  dirstruct_guardian: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
+    dirstruct_guardian: {
+        options: {
+            fail: true
+        },
+        js: {
+            files: [
+                { allowed: ['.js'], src: ['routers/**', 'public/js/**'], expand: true },
+                { allowed: ['.js', '.json'], src: ['tests/**'], expand: true }
+            ]
+        },
+        css: {
+            files: [
+                { allowed: ['.css'], cwd: 'public', src: ['css/*'], expand: true }
+            ]
+        }
+    }
 });
 ```
 
@@ -86,4 +103,7 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+
+* 2014-01-08   v0.1.0   Initial release
+
+Task submitted by [eluck](http://github.com/eluck)
