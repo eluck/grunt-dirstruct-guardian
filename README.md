@@ -27,6 +27,9 @@ In your project's Gruntfile, add a section named `dirstruct_guardian` to the dat
 ```js
 grunt.initConfig({
     dirstruct_guardian: {
+        options: {
+            fail: true
+        }
         task1: {
             files: [
                 { allowed: ['.js', '.coffee'], src: ['a/path/regarding/root', 'another/path/regarding/root'], expand: true }
@@ -50,23 +53,14 @@ Default value: `false`
 
 If set to true, the grunt task will abort when it finds a file, which is not allowed for the directory. Otherwise it will just log a warning.
 
-#### targets[i].root
-Type: `String`
-Default value: `current working directory`
-
-A path that targets[i].directories[j].paths will be added to.
-
-#### targets[i].rules[j].filters
-Type: `String`
+#### files.allowed
+Type: `Array of String`
 Default value: `[]`
 
-An array of allowed file types. By default no file types allowed.
+List of allowed file extensions for the directories specified in `files.src`;
 
-#### targets[i].directories[j].paths
-Type: `String`
-Default value: `[]`
-
-An array of paths to guard. All paths evaluate regarding targets[i].root path.
+#### files.src, files.expand, files.cwd, etc.
+These values help to define set of guarded directories. Find [here](http://gruntjs.com/configuring-tasks#files) extensive documentation on how to build extended file matchers that fit your needs.
 
 ### Usage Examples
 
@@ -101,7 +95,7 @@ grunt.initConfig({
 });
 ```
 
-Find [here](http://gruntjs.com/configuring-tasks#files) extensive documentation on how to build extended file matchers that fit your needs.
+
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
