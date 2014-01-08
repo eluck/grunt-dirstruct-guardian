@@ -10,7 +10,9 @@ exports.getFileName = function(f) {
 };
 
 exports.checkOptions = function(f) {
-    f.allowed || (f.allowed = []);
+    if (!f.allowed) {
+        f.allowed = [];
+    }
     return f;
 };
 

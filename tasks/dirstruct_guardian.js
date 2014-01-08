@@ -22,7 +22,7 @@ module.exports = function (grunt) {
         });
 
         // Iterate over all specified file groups.
-        this.files.filter(API.isFile(f)).forEach(
+        this.files.filter(API.isFile).forEach(
             function (f) {
                 f = API.checkOptions(f);
                 if (!API.isFileAllowed(f))
