@@ -8,8 +8,7 @@
 
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
+var API = require('./api');
 
 module.exports = function (grunt) {
 
@@ -23,23 +22,20 @@ module.exports = function (grunt) {
         });
 
         // Iterate over all specified file groups.
-        this.files.filter(function (f) {
-            return fs.lstatSync(f.src[0]).isFile();
-        }).forEach(function (f) {
-
-            var filePath = f.src[0];
-            f.allowed || (f.allowed = []);
-
-            if (f.allowed.indexOf(path.extname(filePath))) {
-                grunt.verbose.error();
-                var message = 'File "' + path.basename(filePath) + '" is not allowed in the "' + path.dirname(filePath) + '" directory';
-                if (options.fail) {
-                    grunt.fail.warn(message);
-                } else {
-                    grunt.log.warn(message);
+        this.files.filter(API.isFile(f)).forEach(
+            function (f) {
+                f = API.checkOptions(f);
+                if (!API.isFileAllowed(f))
+                {
+                    grunt.verbose.error();
+                    var message = 'File "' + API.getFileName(f) + '" is not allowed in the "' + API.getFilePath(f) + '" directory';
+                    if (options.fail) {
+                        grunt.fail.warn(message);
+                    } else {
+                        grunt.log.warn(message);
+                    }
                 }
             }
-        });
+        );
     });
-
 };
