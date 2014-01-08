@@ -74,9 +74,10 @@ An array of paths to guard. All paths evaluate regarding targets[i].root path.
 Checking that:
 
 * 'public/js' directory and its subdirectories only contain .js files
+* 'routers' directory and its subdirectories only contain .js files
+* 'tests' directory and its subdirectories only contain .js and .json files
 * 'public/css' directory only contains .css files
 * 'pulbic/css/map' directory only contains .map files
-* 'views' directory and its subdirictories only contain .jade files
 
 ```js
 grunt.initConfig({
@@ -92,7 +93,8 @@ grunt.initConfig({
         },
         css: {
             files: [
-                { allowed: ['.css'], cwd: 'public', src: ['css/*'], expand: true }
+                { allowed: ['.css'], src: ['public/css/*'], expand: true },
+                { allowed: ['.map'], src: ['public/css/map/*'], expand: true }
             ]
         }
     }
@@ -106,4 +108,5 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 * 2014-01-08   v0.1.0   Initial release
 
-Task submitted by [eluck](http://github.com/eluck)
+## License
+MIT © [eluck](http://github.com/eluck)
