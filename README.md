@@ -1,4 +1,4 @@
-# grunt-dirstruct-guardian
+# grunt-dirstruct-guardian [![Build Status](https://travis-ci.org/eluck/grunt-dirstruct-guardian.png?branch=master)](https://travis-ci.org/eluck/grunt-dirstruct-guardian)
 
 > Watches that certain filetypes lie in associated directories, e.g. .js-files in the 'js' dir.
 
