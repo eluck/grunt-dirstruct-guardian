@@ -16,9 +16,9 @@ describe('dirstruct-guardian API', function() {
 
     describe('.fail(grunt)', function() {
 
-        it('should call grunt.fail.warn', function() {
+        it('should call grunt.fail.fatal', function() {
             var callback = sinon.spy();
-            var gruntMock = { fail: { warn: callback } };
+            var gruntMock = { fail: { fatal: callback } };
             API.fail(gruntMock);
             callback.calledOnce.should.be.true;
         });
