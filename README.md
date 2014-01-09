@@ -103,6 +103,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 ## Release History
 
 * 2014-01-08   v0.1.0   Initial release
+* 2014-01-09   v0.2.0   Colorize output, improve reporting and testing
 
 ## License
 MIT © [eluck](http://github.com/eluck)
