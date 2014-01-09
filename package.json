@@ -29,7 +29,11 @@
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.0",
     "grunt-contrib-nodeunit": "~0.2.0",
-    "grunt": "~0.4.2"
+    "grunt": "~0.4.2",
+    "mocha": "~1.16.2",
+    "grunt-mocha-test": "~0.8.1",
+    "sinon": "~1.7.3",
+    "should": "~2.1.1"
   },
   "peerDependencies": {
     "grunt": "~0.4.2"

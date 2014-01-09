@@ -34,9 +34,14 @@ module.exports = function (grunt) {
                 ]
             }
         },
-        // Unit tests.
-        nodeunit: {
-            tests: ['test/*_test.js']
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: 'spec'
+                },
+                src: ['test/*.js']
+            }
+
         }
 
     });
@@ -46,11 +51,11 @@ module.exports = function (grunt) {
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-nodeunit');
+    grunt.loadNpmTasks('grunt-mocha-test');
 
     //Add tests for travis CI
-    grunt.registerTask('test', ['nodeunit']);
+    grunt.registerTask('test', ['mochaTest']);
 
     // By default, lint and run all tests.
-    grunt.registerTask('default', ['jshint', 'nodeunit']);
+    grunt.registerTask('default', ['jshint', 'mochaTest']);
 };
