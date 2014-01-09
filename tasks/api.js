@@ -1,25 +1,44 @@
 var path = require('path');
-var fs = require('fs');
 
-exports.getFilePath = function(f) {
-    return path.dirname(f.src[0]);
-};
+module.exports = {
+    checkFiles: function(filesAndDirs, isFile) {
+        var files = filesAndDirs.filter(isFile || this.isFile);
+        var self = this;
+        return files.reduce(function (memo, curr) {
+            curr = self.normalizeOptions(curr);
+            if (!self.isFileAllowed(curr)) {
+                memo.push(curr.src[0]);
+            }
+            return memo;
+        },[]);
+    },
 
-exports.getFileName = function(f) {
-    return path.basename(f.src[0]);
-};
+    warn: function(disallowedFiles, grunt) {
+        disallowedFiles.forEach(function(file) {
+            var dir = path.dirname(file) === '.' ? 'root' : '"' + path.dirname(file) + '"';
+            grunt.log.warn('dirstruct-guardian: File "' +
+                path.basename(file) + '" is not allowed in the ' +
+                 dir + ' directory.');
+        });
+    },
 
-exports.checkOptions = function(f) {
-    if (!f.allowed) {
-        f.allowed = [];
+    fail: function(grunt) {
+        grunt.fail.warn('dirstruct-guardian: aborting grunt task. ' +
+            'Remove disallowed files found or use "options { fail = false }" to prevent failing');
+    },
+
+    normalizeOptions: function(f) {
+        if (!f.allowed) {
+            f.allowed = [];
+        }
+        return f;
+    },
+
+    isFileAllowed: function(f) {
+        return f.allowed.indexOf(path.extname(f.src[0])) !== -1;
+    },
+
+    isFile: function(f) {
+        return fs.lstatSync(f.src[0]).isFile();
     }
-    return f;
-};
-
-exports.isFileAllowed = function(f) {
-    return f.allowed.indexOf(path.extname(f.src[0])) !== -1;
-};
-
-exports.isFile = function(f) {
-    return fs.lstatSync(f.src[0]).isFile();
 };
