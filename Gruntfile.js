@@ -30,7 +30,7 @@ module.exports = function (grunt) {
             },
             js: {
                 files: [
-                    { allowed: ['.js'], src: ['js/**', 'jss/*'], expand: true }
+                    { allowed: ['.js'], cwd: 'test/fixture', src: ['js/**', 'jss/*'], expand: true }
                 ]
             }
         },
@@ -55,6 +55,7 @@ module.exports = function (grunt) {
 
     //Add tests for travis CI
     grunt.registerTask('test', ['mochaTest']);
+    grunt.registerTask('debug', ['dirstruct_guardian']);
 
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'mochaTest']);
