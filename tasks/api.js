@@ -1,4 +1,5 @@
 var path = require('path');
+var fs = require('fs');
 
 module.exports = {
     checkFiles: function(filesAndDirs, isFile) {
@@ -24,7 +25,7 @@ module.exports = {
 
     fail: function(grunt) {
         grunt.fail.warn('dirstruct-guardian: aborting grunt task. ' +
-            'Remove disallowed files found or use "options { fail = false }" to prevent failing');
+            'Remove disallowed files found or use "options { fail: false }" to prevent failing');
     },
 
     normalizeOptions: function(f) {
