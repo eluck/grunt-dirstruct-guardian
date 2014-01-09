@@ -1,5 +1,6 @@
 var path = require('path');
 var fs = require('fs');
+var colors = require('colors');
 
 module.exports = {
     checkFiles: function(filesAndDirs, isFile) {
@@ -16,15 +17,15 @@ module.exports = {
 
     warn: function(disallowedFiles, grunt) {
         disallowedFiles.forEach(function(file) {
-            var dir = path.dirname(file) === '.' ? 'root' : '"' + path.dirname(file) + '"';
+            var dir = path.dirname(file) === '.' ? 'root'.green : '"' + path.dirname(file).green + '"';
             grunt.log.warn('dirstruct-guardian: File "' +
-                path.basename(file) + '" is not allowed in the ' +
+                path.basename(file).red + '" is not allowed in the ' +
                  dir + ' directory.');
         });
     },
 
     fail: function(grunt) {
-        grunt.fail.warn('dirstruct-guardian: aborting grunt task. ' +
+        grunt.fail.fatal('dirstruct-guardian: aborting grunt task. ' +
             'Remove disallowed files found or use "options { fail: false }" to prevent failing');
     },
 

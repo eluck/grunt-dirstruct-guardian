@@ -40,5 +40,8 @@
   },
   "keywords": [
     "gruntplugin"
-  ]
+  ],
+  "dependencies": {
+    "colors": "~0.6.2"
+  }
 }
